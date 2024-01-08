@@ -1,12 +1,14 @@
 package com.example.mission.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
+@Getter
 public class Article {
 
     @Id
@@ -27,4 +29,6 @@ public class Article {
 
     @OneToMany(mappedBy = "article")
     private List<Comment> commentList;
+
+
 }

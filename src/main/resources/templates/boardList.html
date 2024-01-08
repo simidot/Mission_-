@@ -15,6 +15,36 @@
         <a href="#" class="btn btn-primary">게시글 쓰기</a>
     </div>
 
+<!--    <table class="table">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th scope="col">#</th>-->
+<!--            <th scope="col">게시판 카테고리</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr>-->
+<!--            <th scope="row">1</th>-->
+<!--            <td><a href="#">전체 게시글 보기</a></td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <th scope="row">2</th>-->
+<!--            <td><a href="#">자유 게시판</a></td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <th scope="row">3</th>-->
+<!--            <td><a href="#">개발 게시판</a></td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <th scope="row">4</th>-->
+<!--            <td><a href="#">일상 게시판</a></td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <th scope="row">5</th>-->
+<!--            <td><a href="#">사건사고 게시판</a></td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
     <table class="table">
         <thead>
         <tr>
@@ -23,25 +53,13 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td><a href="#">전체 게시글 보기</a></td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td><a href="#">자유 게시판</a></td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td><a href="#">개발 게시판</a></td>
-        </tr>
-        <tr>
-            <th scope="row">4</th>
-            <td><a href="#">일상 게시판</a></td>
+        <tr th:each="board, index : ${boards}">
+            <th scope="row" th:text="${index.index + 1}"></th>
+            <td><a th:href="@{/boards/{boardId}(boardId=${board.id})}" th:text="${board.category}"></a></td>
         </tr>
         <tr>
             <th scope="row">5</th>
-            <td><a href="#">사건사고 게시판</a></td>
+            <td><a th:href="@{/boards/allCategory}">전체 카테고리</a></td>
         </tr>
         </tbody>
     </table>
