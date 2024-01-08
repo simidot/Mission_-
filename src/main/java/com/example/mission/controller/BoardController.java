@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.Optional;
-
 @Controller
 @RequestMapping("/boards")
 public class BoardController {
@@ -20,12 +18,13 @@ public class BoardController {
     // BoardController가 생성될 때 카테고리가 저장되도록 한다.
     public BoardController(BoardService boardService) {
         this.boardService = boardService;
-        System.out.println("ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ");
-        boardService.createCategories();
+        boardService.createCategories(); //카테고리 insert 메서드
     }
 
+    // todo: 게시판 목록 보기에서 새로고침시 계속 카테고리가 추가되는 문제 > 일단 해결
+    // 생성자에 create문을 따로 분리하고, 서비스단에서 if문으로 조건을 걸어서 해결함
+
     // 게시판 목록 전체 보기
-    // todo: 게시판 목록 보기에서 새로고침시 계속 카테고리가 추가되는 문제
     @GetMapping
     public String showBoardList(Model model) {
         model.addAttribute("boards", boardService.readBoardCategories());

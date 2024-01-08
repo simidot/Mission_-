@@ -1,10 +1,12 @@
 package com.example.mission.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -22,6 +24,8 @@ public class Article {
     private String content;
 
     @CreationTimestamp
+//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+//    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm", timezone="Asia/Seoul") //날짜 포멧 바꾸기
     private Timestamp createDate;
 
     private String password;

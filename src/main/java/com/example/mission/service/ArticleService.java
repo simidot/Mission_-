@@ -8,6 +8,8 @@ import com.example.mission.repo.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ArticleService {
@@ -23,5 +25,10 @@ public class ArticleService {
         article.setBoard(foundBoard);
         article.setPassword(password);
         articleRepository.save(article);
+    }
+
+    // 게시글 상세 조회
+    public Optional<Article> viewArticleDetail(Long id) {
+        return articleRepository.findById(id);
     }
 }
