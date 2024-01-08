@@ -14,11 +14,18 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/boards")
-@RequiredArgsConstructor
 public class BoardController {
     private final BoardService boardService;
 
+    // BoardController가 생성될 때 카테고리가 저장되도록 한다.
+    public BoardController(BoardService boardService) {
+        this.boardService = boardService;
+        System.out.println("ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ");
+        boardService.createCategories();
+    }
+
     // 게시판 목록 전체 보기
+    // todo: 게시판 목록 보기에서 새로고침시 계속 카테고리가 추가되는 문제
     @GetMapping
     public String showBoardList(Model model) {
         model.addAttribute("boards", boardService.readBoardCategories());
