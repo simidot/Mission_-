@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Post Article</title>
+    <!-- 부트스트랩 CDN 추가 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2 class="mb-4">게시글 쓰기</h2>
+
+    <form th:action="@{/boards/${boardId}/article}" method="post">
+        <div class="form-group">
+            <label for="articleTitle">제목</label>
+            <input type="text" class="form-control" id="articleTitle" name="articleTitle" placeholder="제목을 입력하세요" required>
+        </div>
+        <div class="form-group">
+            <label for="articleContent">내용</label>
+            <textarea class="form-control" id="articleContent" name="articleContent" rows="5" placeholder="내용을 입력하세요" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="boardCategory">카테고리</label>
+            <select class="form-control" id="boardCategory" name="boardCategory">
+                <option value="자유 게시판">자유 게시판</option>
+                <option value="개발 게시판">개발 게시판</option>
+                <option value="일상 게시판">일상 게시판</option>
+                <option value="사건사고 게시판">사건사고 게시판</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="articlePassword">본인 확인 비밀번호</label>
+            <input type="password" class="form-control" id="articlePassword" name="articlePassword"
+                   placeholder="수정/삭제시 본인 확인을 위한 비밀번호를 입력해주세요." required>
+        </div>
+        <button type="submit" class="btn btn-primary">게시글 등록</button>
+    </form>
+</div>
+
+<!-- 부트스트랩 및 팝퍼, 제이쿼리 CDN 추가 -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>
