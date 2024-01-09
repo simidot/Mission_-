@@ -23,4 +23,10 @@ public class Comment {
 
     @ManyToOne
     private Article article;
+
+    public Comment(String content, String password, Article article) {
+        this.content = content;
+        this.password = password;
+        this.article = article;
+    }
 }

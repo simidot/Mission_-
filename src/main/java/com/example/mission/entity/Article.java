@@ -1,26 +1,28 @@
 package com.example.mission.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@NoArgsConstructor
 public class Article {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     private String title;
     @Lob
+    @Setter
     private String content;
 
     @CreationTimestamp
@@ -31,26 +33,30 @@ public class Article {
     private String password;
 
     @ManyToOne
+    @Setter
     private Board board;
 
     @OneToMany(mappedBy = "article")
-    private List<Comment> commentList;
+    private final List<Comment> commentList = new ArrayList<>();
 
-    public Article() {
-
+    public Article(String title, String content, String password, Board board) {
+        this.title = title;
+        this.content = content;
+        this.password = password;
+        this.board = board;
     }
 
     //연관관계 편의 메서드
-    public void addBoard(Board board) {
-        // article에 이미 board가 설정되어 있을 경우
-        if (this.board != null) {
-            // board에서 해당 Entity 제거
-            this.board.getArticleList().remove(this);
-        }
-        // 해당 article Entity에 파라미터로 들어온 board 연관관계 설정
-        this.board = board;
-        // 파라미터로 들어온 board Entity에 article 연관관계 설정
-        board.getArticleList().add(this);
-    }
+//    public void addBoard(Board board) {
+//        // article에 이미 board가 설정되어 있을 경우
+//        if (this.board != null) {
+//            // board에서 해당 Entity 제거
+//            this.board.getArticleList().remove(this);
+//        }
+//        // 해당 article Entity에 파라미터로 들어온 board 연관관계 설정
+//        this.board = board;
+//        // 파라미터로 들어온 board Entity에 article 연관관계 설정
+//        board.getArticleList().add(this);
+//    }
 
 }

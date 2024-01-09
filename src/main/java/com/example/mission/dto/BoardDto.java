@@ -1,15 +1,34 @@
 package com.example.mission.dto;
 
+import com.example.mission.entity.Article;
 import com.example.mission.entity.Board;
-import lombok.Data;
+import com.example.mission.entity.BoardCategory;
+import lombok.*;
 
-@Data
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter
+@ToString
+@NoArgsConstructor
 public class BoardDto {
     private Long id;
+    @Setter
     private String category;
+    private List<ArticleDto> articleDtoList = new ArrayList<>();
 
-    public BoardDto(Board board) {
-        this.id = board.getId();
-        this.category = String.valueOf(board.getCategory());
+    public BoardDto(BoardCategory category) {
+        this.category = String.valueOf(category);
+    }
+
+    public static BoardDto fromEntity(Board entity) {
+        BoardDto dto = new BoardDto();
+        dto.id = entity.getId();
+        dto.category = String.valueOf(entity.getCategory());
+        dto.articleDtoList = new ArrayList<>();
+        for (Article article : entity.getArticleList()) {
+            dto.articleDtoList.add(ArticleDto.fromEntity(article));
+        }
+        return dto;
     }
 }

@@ -1,17 +1,17 @@
 package com.example.mission.dto;
 
 import com.example.mission.entity.Article;
-import com.example.mission.entity.Comment;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @ToString
 @NoArgsConstructor
-public class ArticleDto {
+public class UpdateArticleDto {
     private Long id;
     @Setter
     private String title;
@@ -20,32 +20,29 @@ public class ArticleDto {
     private Timestamp createDate;
     @Setter
     private String password;
-    private List<CommentDto> comments = new ArrayList<>();
-
-    public ArticleDto(String title, String content, String password) {
-        this.title = title;
-        this.content = content;
-        this.password = password;
-    }
-
-    public ArticleDto(Long id, String title, String content, String password) {
+    private BoardDto board;
+    public UpdateArticleDto(Long id, String title, String content, String password) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.password = password;
     }
 
-    public static ArticleDto fromEntity(Article entity) {
-        ArticleDto dto = new ArticleDto();
+    public UpdateArticleDto(Long id, String title, String content, BoardDto board) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.board = board;
+    }
+
+    public static UpdateArticleDto fromEntity(Article entity) {
+        UpdateArticleDto dto = new UpdateArticleDto();
         dto.id = entity.getId();
         dto.title = entity.getTitle();
         dto.content = entity.getContent();
         dto.password = entity.getPassword();
         dto.createDate = entity.getCreateDate();
-        dto.comments = new ArrayList<>();
-        for (Comment comment : entity.getCommentList()) {
-            dto.comments.add(CommentDto.fromEntity(comment));
-        }
+        dto.board = BoardDto.fromEntity(entity.getBoard());
         return dto;
     }
 }

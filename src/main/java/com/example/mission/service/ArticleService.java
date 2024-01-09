@@ -1,5 +1,8 @@
 package com.example.mission.service;
 
+import com.example.mission.dto.ArticleDto;
+import com.example.mission.dto.BoardDto;
+import com.example.mission.dto.UpdateArticleDto;
 import com.example.mission.entity.Article;
 import com.example.mission.entity.Board;
 import com.example.mission.entity.BoardCategory;
@@ -17,35 +20,33 @@ public class ArticleService {
     private final BoardRepository boardRepository;
 
     // 게시글 저장 메서드
-    public void createArticle(String title, String content, BoardCategory category, String password) {
-        Article article = new Article();
-        Board foundBoard = boardRepository.findBoardByCategory(category);
-        article.setTitle(title);
-        article.setContent(content);
-        article.setBoard(foundBoard);
-        article.setPassword(password);
-        articleRepository.save(article);
+    public ArticleDto createArticle(ArticleDto articleDto, BoardCategory category) {
+        Board board = boardRepository.findBoardByCategory(category);
+        Article article = new Article(articleDto.getTitle(), articleDto.getContent(),
+                articleDto.getPassword(), board);
+        return ArticleDto.fromEntity(articleRepository.save(article));
     }
 
     // 게시글 상세 조회
-    public Optional<Article> viewArticleDetail(Long id) {
-        return articleRepository.findById(id);
+    public ArticleDto viewArticleDetail(Long id) {
+        Article article = articleRepository.findById(id).orElseThrow();
+        return ArticleDto.fromEntity(article);
     }
 
     // 게시글 수정하기
-    public void updateArticle(Long id, String title, String content, BoardCategory category, String password) {
-        Article article = articleRepository.findById(id).orElse(null);
+    public void updateArticle(UpdateArticleDto articleDto, BoardCategory category) {
+        Article article = articleRepository.findById(articleDto.getId()).orElseThrow();
 
         // 비밀번호가 올렸던 당시의 비밀번호와 일치하면 수정 가능
-        if (article.getPassword().equals(password)) {
-            Board foundBoard = boardRepository.findBoardByArticleListId(id);
+        if (article.getPassword().equals(articleDto.getPassword())) {
+            Board foundBoard = boardRepository.findBoardByArticleListId(articleDto.getId());
             foundBoard.setCategory(category);
-            article.setTitle(title);
-            article.setContent(content);
+            article.setTitle(articleDto.getTitle());
+            article.setContent(articleDto.getContent());
+            article.setBoard(foundBoard);
 
-            articleRepository.save(article);
-            boardRepository.save(foundBoard);
-        } else { //일치하지 않으면
+            UpdateArticleDto.fromEntity(articleRepository.save(article));
+        } else { //일치하지 않으면 todo: 일치하지 않으면 어떻게 해야할지?
             System.out.println("비밀번호가 일치하지 않습니다.");
         }
     }

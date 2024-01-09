@@ -1,5 +1,8 @@
 package com.example.mission.controller;
 
+import com.example.mission.dto.ArticleDto;
+import com.example.mission.dto.BoardDto;
+import com.example.mission.dto.UpdateArticleDto;
 import com.example.mission.entity.Article;
 import com.example.mission.entity.BoardCategory;
 import com.example.mission.service.ArticleService;
@@ -33,14 +36,14 @@ public class ArticleController {
             @RequestParam("category") BoardCategory category,
             @RequestParam("password") String password
     ) {
-        articleService.createArticle(title, content, category, password);
+        articleService.createArticle(new ArticleDto(title, content, password), category);
         return "redirect:/boards";
     }
 
     // 게시글 id값 받아와서 게시글 상세보기
     @GetMapping("/{articleId}")
     public String viewArticleDetail(@PathVariable("articleId") Long id, Model model) {
-        Article article = articleService.viewArticleDetail(id).orElse(null);
+        ArticleDto article = articleService.viewArticleDetail(id);
         model.addAttribute("article", article);
         model.addAttribute("board", boardService.findBoardByArticleId(id));
         return "articleDetail";
@@ -49,12 +52,13 @@ public class ArticleController {
     // 게시글 수정하기 폼으로 이동 (view)
     @GetMapping("/{articleId}/update")
     public String updateArticleForm(@PathVariable("articleId") Long id, Model model) {
-        model.addAttribute("article", articleService.viewArticleDetail(id).orElse(null));
+        model.addAttribute("article", articleService.viewArticleDetail(id));
         model.addAttribute("board", boardService.findBoardByArticleId(id));
         return "updateArticleForm";
     }
 
     // 게시글 수정하기
+    // todo: 고민거리... 비밀번호 일치여부에 따른 로직은 컨트롤러 단에서 해야할까 서비스단에서 해야할까..?
     @PostMapping("/{articleId}/update")
     public String updateArticle(@RequestParam("id") Long id,
                                 @RequestParam("title") String title,
@@ -63,7 +67,7 @@ public class ArticleController {
                                 @RequestParam("password") String password,
                                 RedirectAttributes redirectAttributes
     ) {
-        articleService.updateArticle(id, title, content, category, password);
+        articleService.updateArticle(new UpdateArticleDto(id, title, content, password), category);
         redirectAttributes.addAttribute("articleId", id);
 
         return "redirect:/article/{articleId}";
