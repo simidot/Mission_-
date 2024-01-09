@@ -21,7 +21,7 @@ public class Comment {
     @CreationTimestamp
     private Timestamp createDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Article article;
 
     public Comment(String content, String password, Article article) {

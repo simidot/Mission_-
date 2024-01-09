@@ -23,4 +23,15 @@ public class CommentController {
         redirectAttributes.addAttribute("articleId", id);
         return "redirect:/article/{articleId}";
     }
+
+    // 댓글 삭제하기
+    @GetMapping("/{articleId}/comment/{commentId}/delete")
+    public String deleteComment(@PathVariable("articleId") Long articleId,
+                                @PathVariable("commentId") Long commentId,
+                                RedirectAttributes redirectAttributes
+    ) {
+        commentService.deleteComment(commentId);
+        redirectAttributes.addAttribute("articleId", articleId);
+        return "redirect:/article/{articleId}";
+    }
 }

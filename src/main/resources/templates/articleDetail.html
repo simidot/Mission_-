@@ -41,27 +41,30 @@
                placeholder="수정/삭제를 위해 게시글 작성시 입력했던 비밀번호를 입력하세요.">
     </div>
 
-    <hr>
+    <hr class="mt-7">
     <!-- 댓글 부분 -->
     <h3 class="mb-3">COMMENTS</h3>
 
-<!--    <div th:each="comment : ${comments}" class="media mb-4">-->
-<!--        <div class="media-body d-flex">-->
-<!--            <div>-->
-<!--                <span th:text="${comment.content}">댓글 내용</span>-->
-<!--            </div>-->
-<!--            <div class="ml-auto">-->
-<!--                <span class="mt-0 mr-3" th:text="${comment.createDate}">댓글 작성 시간</span>-->
-<!--                <button type="button" class="btn btn-danger" th:onclick="'deleteComment(\'' + ${comment.id} + '\')'">삭제</button>-->
-<!--&lt;!&ndash;                todo: 댓글 삭제시에 비밀번호 확인하고, 일치시 삭제 가능하도록 하기.&ndash;&gt;-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
+<!--    article내의 comments를 반복문 돌며 화면에 뿌리기-->
+    <div th:each="comment : ${article.comments}" class="card mb-4">
+<!--        자바스크립트 활용을 위해 attribute 설정 (commentId와 commentPassword)-->
+        <div class="card-body d-flex" th:attr="data-commentId=${comment.id}, data-commentPassword=${comment.password}">
+            <div>
+                <p class="card-text" th:text="${comment.content}">댓글 내용</p>
+                <p class="card-text mt-0 mr-3" th:text="${comment.createDate}">댓글 작성 시간</p>
+            </div>
+            <div class="ml-auto">
+                <button type="button" class="btn btn-danger" onclick="focusCommentPassword(this)">삭제</button>
+                <button type="button" class="btn btn-confirm" onclick="checkCommentPassword(this)">확인</button>
+                <input type="password" class="form-control mt-3 commentConfirmPassword"
+                       placeholder="댓글 작성시 입력 비밀번호">
+            </div>
+        </div>
+    </div>
 
     <hr>
     <!-- 댓글 작성 폼 -->
     <h3 class="mb-3 mt-10">댓글 작성하기</h3>
-<!--    todo: form action 작성-->
     <form th:action="@{{articleId}/comment(articleId=${article.id})}" method="post">
         <div class="form-group">
             <label for="content">댓글 내용</label>
@@ -72,45 +75,73 @@
             <input type="password" class="form-control" id="password" name="password"
                    placeholder="작성자를 확인하기 위해 비밀번호를 입력해주세요.">
         </div>
-        <button type="submit" class="btn btn-primary">댓글 작성</button>
+        <button type="submit" class="btn btn-primary mb-10">댓글 작성</button>
     </form>
 </div>
 
 
-    <script>
-<!--        비밀번호를 입력하지 않고 수정하기/삭제하기를 눌렀을 때 비밀번호 입력 알림과 포커싱-->
-        function focusPasswordPrompt() {
-            var passwordInput = document.getElementById('confirmPassword');
-            passwordInput.focus();
+<script th:inline="javascript">
+    var articleId = [[${article.id}]];
 
-            // 알림창 표시
-            alert("비밀번호를 입력하세요.");
-        }
+    // 비밀번호를 입력하지 않고 수정하기/삭제하기를 눌렀을 때 비밀번호 입력 알림과 포커싱
+    function focusPasswordPrompt() {
+        var passwordInput = document.getElementById('confirmPassword');
+        passwordInput.focus();
 
-        // 입력한 비밀번호와 게시글 쓰기에서 입력한 비밀번호가 같은지 확인하고,
-        // 일치하면 수정/삭제 가능, 불일치시 비밀번호 불일치 알림
-        function checkPassword(action) {
-            var passwordInput = document.getElementById('confirmPassword');
+        // 알림창 표시
+        alert("비밀번호를 입력하세요.");
+    }
 
-            var enteredPassword = passwordInput.value;
-            var articlePassword = [[${article.password}]];
-            var articleId = [[${article.id}]];
+    // 입력한 비밀번호와 게시글 쓰기에서 입력한 비밀번호가 같은지 확인하고,
+    // 일치하면 수정/삭제 가능, 불일치시 비밀번호 불일치 알림
+    function checkPassword(action) {
+        var passwordInput = document.getElementById('confirmPassword');
 
-            if(enteredPassword != "") {
-                if (enteredPassword == articlePassword) {
-                    if(action ==='update') {
-                        location.href = "/article/"+articleId+"/update";
-                    } else if (action === 'delete') {
-                        alert("게시글이 삭제됩니다.");
-                        location.href = "/article/"+articleId+"/delete";
-                    }
-                } else {
-                    alert("비밀번호가 일치하지 않습니다.");
+        var enteredPassword = passwordInput.value;
+        var articlePassword = [[${article.password}]];
+
+        if(enteredPassword != "") {
+            if (enteredPassword == articlePassword) {
+                if(action ==='update') {
+                    location.href = "/article/"+articleId+"/update";
+                } else if (action === 'delete') {
+                    alert("게시글이 삭제됩니다.");
+                    location.href = "/article/"+articleId+"/delete";
                 }
+            } else {
+                alert("비밀번호가 일치하지 않습니다.");
             }
         }
+    }
 
-    </script>
+    // 비밀번호를 입력하지 않고 댓글 삭제버튼 눌렀을 때 비밀번호 입력 알림과 비밀번호 입력칸에 포커싱
+    function focusCommentPassword(button) {
+        var passwordInput = button.closest('.card-body').getElementsByClassName('commentConfirmPassword')[0];
+        passwordInput.focus();
+        // 알림창 표시
+        alert("댓글 삭제를 위해 비밀번호를 입력하세요.");
+    }
+
+    // 입력한 비밀번호와 댓글 입력시 비밀번호가 같은지 확인하고,
+    // 일치하면 삭제, 불일치시 비밀번호 불일치 알림
+    function checkCommentPassword(button) {
+        var commentId = button.closest('.card-body').getAttribute('data-commentId');
+        var commentPassword = button.closest('.card-body').getAttribute('data-commentPassword');
+
+        var passwordInput = button.closest('.card-body').getElementsByClassName('commentConfirmPassword')[0];
+        var enteredPassword = passwordInput.value;
+
+        if (enteredPassword != "") {
+            if (enteredPassword == commentPassword) {
+                alert("댓글이 삭제됩니다. ");
+                location.href = "/article/" + articleId + "/comment/" + commentId + "/delete";
+            } else {
+                alert("비밀번호가 일치하지 않습니다.");
+            }
+        }
+    }
+
+</script>
 <!-- 부트스트랩 및 팝퍼, 제이쿼리 CDN 추가 -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
