@@ -12,32 +12,32 @@
 <div class="container mt-5">
     <h2 class="mb-4">게시글 수정</h2>
 
-    <form th:action="@{/boards/${boardId}/article/${articleId}/update}" method="post">
-        <input type="hidden" name="postId" th:value="${article.id}">
+    <form th:action="@{/article/${articleId}/update}" method="post">
+        <input type="hidden" name="id" th:value="${article.id}">
         <div class="form-group">
-            <label for="articleTitle">제목</label>
-            <input type="text" class="form-control" id="articleTitle" name="articleTitle" th:value="${article.title}" required>
+            <label for="title">제목</label>
+            <input type="text" class="form-control" id="title" name="title" th:value="${article.title}" required>
         </div>
         <div class="form-group">
-            <label for="articleContent">내용</label>
-            <textarea class="form-control" id="articleContent" name="articleContent" rows="5" th:text="${article.content}" required></textarea>
+            <label for="content">내용</label>
+            <textarea class="form-control" id="content" name="content" rows="5" th:text="${article.content}" required></textarea>
         </div>
         <div class="form-group">
-            <label for="boardCategory">카테고리</label>
-            <select class="form-control" id="boardCategory" name="boardCategory" th:value="${board.category}">
-                <option value="전체 게시글 보기">전체 게시글 보기</option>
-                <option value="자유 게시판">자유 게시판</option>
-                <option value="개발 게시판">개발 게시판</option>
-                <option value="일상 게시판">일상 게시판</option>
-                <option value="사건사고 게시판">사건사고 게시판</option>
+            <label for="category">카테고리</label>
+            <select class="form-control" id="category" name="category" th:field="${board.category}">
+                <option value="자유">자유 게시판</option>
+                <option value="개발">개발 게시판</option>
+                <option value="일상">일상 게시판</option>
+                <option value="사건사고">사건사고 게시판</option>
             </select>
         </div>
         <div class="form-group">
-            <label for="articlePassword">본인 확인 비밀번호</label>
-            <input type="password" class="form-control" id="articlePassword" name="postPassword"
+            <label for="password">본인 확인 비밀번호</label>
+            <input type="password" class="form-control" id="password" name="password"
                    placeholder="게시글 작성 시 입력했던 비밀번호와 일치해야 수정이 가능합니다." required>
         </div>
-        <button type="submit" class="btn btn-primary">게시글 수정</button>
+<!--        todo: 여기 옆에다가 본인확인 버튼 누르고 확인이 되면 확인 완료로 수정 가능하도록 만들기-->
+        <button type="submit" class="btn btn-secondary">게시글 수정</button>
     </form>
 </div>
 

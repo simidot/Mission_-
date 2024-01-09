@@ -10,11 +10,16 @@
 <body>
 
 <div class="container mt-5">
-    <h2 class="mb-4">[[${article.title}]]</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">[[${article.title}]]</h2>
+        <a th:href="@{/boards}" class="btn btn-primary ml-auto">Home</a>
+    </div>
 
     <div class="card mb-4">
         <div class="card-header">
             날짜: [[${article.createDate}]]
+            <br>
+            카테고리: [[${board.category}]]
         </div>
         <div class="card-body">
             <p class="card-text">

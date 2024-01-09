@@ -3,10 +3,12 @@ package com.example.mission.controller;
 import com.example.mission.entity.Article;
 import com.example.mission.entity.BoardCategory;
 import com.example.mission.service.ArticleService;
+import com.example.mission.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
@@ -15,6 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ArticleController {
     private final ArticleService articleService;
+    private final BoardService boardService;
 
     // 게시글 작성하기 폼으로 이동(view)
     @GetMapping
@@ -39,6 +42,30 @@ public class ArticleController {
     public String viewArticleDetail(@PathVariable("articleId") Long id, Model model) {
         Article article = articleService.viewArticleDetail(id).orElse(null);
         model.addAttribute("article", article);
+        model.addAttribute("board", boardService.findBoardByArticleId(id));
         return "articleDetail";
+    }
+
+    // 게시글 수정하기 폼으로 이동 (view)
+    @GetMapping("/{articleId}/update")
+    public String updateArticleForm(@PathVariable("articleId") Long id, Model model) {
+        model.addAttribute("article", articleService.viewArticleDetail(id).orElse(null));
+        model.addAttribute("board", boardService.findBoardByArticleId(id));
+        return "updateArticleForm";
+    }
+
+    // 게시글 수정하기
+    @PostMapping("/{articleId}/update")
+    public String updateArticle(@RequestParam("id") Long id,
+                                @RequestParam("title") String title,
+                                @RequestParam("content") String content,
+                                @RequestParam("category") BoardCategory category,
+                                @RequestParam("password") String password,
+                                RedirectAttributes redirectAttributes
+    ) {
+        articleService.updateArticle(id, title, content, category, password);
+        redirectAttributes.addAttribute("articleId", id);
+
+        return "redirect:/article/{articleId}";
     }
 }

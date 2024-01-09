@@ -1,5 +1,6 @@
 package com.example.mission.service;
 
+import com.example.mission.dto.BoardDto;
 import com.example.mission.entity.Article;
 import com.example.mission.entity.Board;
 import com.example.mission.entity.BoardCategory;
@@ -21,10 +22,10 @@ public class BoardService {
     public void createCategories() {
         // board 카테고리가 비어있을 때에만 추가!
         if (boardRepository.findAll().isEmpty()) {
-            Board board1 = Board.builder().category(BoardCategory.자유).build();
-            Board board2 = Board.builder().category(BoardCategory.개발).build();
-            Board board3 = Board.builder().category(BoardCategory.일상).build();
-            Board board4 = Board.builder().category(BoardCategory.사건사고).build();
+            Board board1 = new Board(BoardCategory.자유);
+            Board board2 = new Board(BoardCategory.개발);
+            Board board3 = new Board(BoardCategory.일상);
+            Board board4 = new Board(BoardCategory.사건사고);
             boardRepository.save(board1);
             boardRepository.save(board2);
             boardRepository.save(board3);
@@ -52,6 +53,9 @@ public class BoardService {
         return articleRepository.findArticleByBoardIdOrderByCreateDateDesc(boardId);
     }
 
+    public Board findBoardByArticleId(Long articleId) {
+        return boardRepository.findBoardByArticleListId(articleId);
+    }
 
 
 }

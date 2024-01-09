@@ -1,15 +1,13 @@
 package com.example.mission.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @ToString
 public class Board {
@@ -17,7 +15,6 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Builder
     public Board(BoardCategory category) {
         this.category = category;
     }

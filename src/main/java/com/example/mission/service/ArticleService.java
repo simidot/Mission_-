@@ -31,4 +31,23 @@ public class ArticleService {
     public Optional<Article> viewArticleDetail(Long id) {
         return articleRepository.findById(id);
     }
+
+    // 게시글 수정하기
+    public void updateArticle(Long id, String title, String content, BoardCategory category, String password) {
+        Article article = articleRepository.findById(id).orElse(null);
+
+        // 비밀번호가 올렸던 당시의 비밀번호와 일치하면 수정 가능
+        if (article.getPassword().equals(password)) {
+            Board foundBoard = boardRepository.findBoardByArticleListId(id);
+            foundBoard.setCategory(category);
+            article.setTitle(title);
+            article.setContent(content);
+
+            articleRepository.save(article);
+            boardRepository.save(foundBoard);
+        } else { //일치하지 않으면
+            System.out.println("비밀번호가 일치하지 않습니다.");
+        }
+
+    }
 }
