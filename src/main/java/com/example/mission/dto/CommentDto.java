@@ -13,6 +13,11 @@ public class CommentDto {
     @Setter
     private String password;
 
+    public CommentDto(String content, String password) {
+        this.content = content;
+        this.password = password;
+    }
+
     public static CommentDto fromEntity(Comment entity) {
         CommentDto dto = new CommentDto();
         dto.id = entity.getId();

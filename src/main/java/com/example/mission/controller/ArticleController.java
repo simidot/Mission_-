@@ -40,7 +40,7 @@ public class ArticleController {
         return "redirect:/boards";
     }
 
-    // 게시글 id값 받아와서 게시글 상세보기
+    // 게시글 id값 받아와서 게시글 상세보기 + 댓글 조회하기
     @GetMapping("/{articleId}")
     public String viewArticleDetail(@PathVariable("articleId") Long id, Model model) {
         ArticleDto article = articleService.viewArticleDetail(id);
