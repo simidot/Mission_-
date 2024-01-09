@@ -48,6 +48,11 @@ public class ArticleService {
         } else { //일치하지 않으면
             System.out.println("비밀번호가 일치하지 않습니다.");
         }
+    }
 
+    // 게시글 삭제하기
+    public void deleteArticle(Long id) {
+        Article delete = articleRepository.findById(id).orElse(null);
+        articleRepository.delete(delete);
     }
 }

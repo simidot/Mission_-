@@ -31,12 +31,19 @@
 
     <!-- 게시글 수정, 삭제 버튼 -->
     <div class="mb-3">
-        <a th:href="@{/article/{articleId}/update(articleId=${article.id})}" class="btn btn-secondary">게시글 수정</a>
-        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#deleteArticleModal">게시글 삭제</button>
+        <button type="button" class="btn btn-secondary" onclick="focusPasswordPrompt()">게시글 수정</button>
+        <button type="button" class="btn btn-confirm" onclick="checkPassword('update')">확인</button>
+
+        <button type="button" class="btn btn-secondary" onclick="focusPasswordPrompt()">게시글 삭제</button>
+        <button type="button" class="btn btn-confirm" onclick="checkPassword('delete')">확인</button>
+
+        <input type="password" class="form-control mt-3" id="confirmPassword"
+               placeholder="수정/삭제를 위해 게시글 작성시 입력했던 비밀번호를 입력하세요.">
     </div>
 
+    <hr>
     <!-- 댓글 부분 -->
-<!--    <h3 class="mb-3">COMMENTS</h3>-->
+    <h3 class="mb-3">COMMENTS</h3>
 
 <!--    <div th:each="comment : ${comments}" class="media mb-4">-->
 <!--        <div class="media-body d-flex">-->
@@ -70,26 +77,40 @@
 <!--</div>-->
 
 
-<!--&lt;!&ndash; 게시글 삭제 모달 &ndash;&gt;-->
-<!--<div class="modal fade" id="deleteArticleModal" tabindex="-1" role="dialog" aria-labelledby="deleteArticleModalLabel" aria-hidden="true">-->
-<!--    <div class="modal-dialog" role="document">-->
-<!--        <div class="modal-content">-->
-<!--            <div class="modal-header">-->
-<!--                <h5 class="modal-title" id="deleteArticleModalLabel">게시글 삭제 확인</h5>-->
-<!--                <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--                    <span aria-hidden="true">&times;</span>-->
-<!--                </button>-->
-<!--            </div>-->
-<!--            <div class="modal-body">-->
-<!--                게시글을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.-->
-<!--            </div>-->
-<!--            <div class="modal-footer">-->
-<!--                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>-->
-<!--                <a th:href="@{'/delete-article/' + ${article.id}}" class="btn btn-danger">삭제</a>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
+    <script>
+<!--        비밀번호를 입력하지 않고 수정하기/삭제하기를 눌렀을 때 비밀번호 입력 알림과 포커싱-->
+        function focusPasswordPrompt() {
+            var passwordInput = document.getElementById('confirmPassword');
+            passwordInput.focus();
+
+            // 알림창 표시
+            alert("비밀번호를 입력하세요.");
+        }
+
+        // 입력한 비밀번호와 게시글 쓰기에서 입력한 비밀번호가 같은지 확인하고,
+        // 일치하면 수정/삭제 가능, 불일치시 비밀번호 불일치 알림
+        function checkPassword(action) {
+            var passwordInput = document.getElementById('confirmPassword');
+
+            var enteredPassword = passwordInput.value;
+            var articlePassword = [[${article.password}]];
+            var articleId = [[${article.id}]];
+
+            if(enteredPassword != "") {
+                if (enteredPassword == articlePassword) {
+                    if(action ==='update') {
+                        location.href = "/article/"+articleId+"/update";
+                    } else if (action === 'delete') {
+                        alert("게시글이 삭제됩니다.");
+                        location.href = "/article/"+articleId+"/delete";
+                    }
+                } else {
+                    alert("비밀번호가 일치하지 않습니다.");
+                }
+            }
+        }
+
+    </script>
 <!-- 부트스트랩 및 팝퍼, 제이쿼리 CDN 추가 -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>

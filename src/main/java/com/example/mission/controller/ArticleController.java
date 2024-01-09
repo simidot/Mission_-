@@ -68,4 +68,11 @@ public class ArticleController {
 
         return "redirect:/article/{articleId}";
     }
+
+    //게시글 삭제하기
+    @GetMapping("/{articleId}/delete")
+    public String deleteArticle(@PathVariable("articleId") Long id) {
+        articleService.deleteArticle(id);
+        return "redirect:/boards";
+    }
 }
