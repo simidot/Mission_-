@@ -8,6 +8,7 @@ import com.example.mission.entity.Board;
 import com.example.mission.entity.BoardCategory;
 import com.example.mission.repo.ArticleRepository;
 import com.example.mission.repo.BoardRepository;
+import com.example.mission.repo.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ import java.util.Optional;
 public class ArticleService {
     private final ArticleRepository articleRepository;
     private final BoardRepository boardRepository;
+    private final CommentRepository commentRepository;
 
     // 게시글 저장 메서드
     public ArticleDto createArticle(ArticleDto articleDto, BoardCategory category) {
@@ -46,7 +48,8 @@ public class ArticleService {
 
     // 게시글 삭제하기
     public void deleteArticle(Long id) {
-        Article delete = articleRepository.findById(id).orElse(null);
-        articleRepository.delete(delete);
+        Article article = articleRepository.findById(id).orElse(null);
+//        article.getCommentList();
+        articleRepository.delete(article);
     }
 }

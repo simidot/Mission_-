@@ -36,7 +36,7 @@ public class Article {
     @Setter
     private Board board;
 
-    @OneToMany(mappedBy = "article")
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private final List<Comment> commentList = new ArrayList<>();
 
     public Article(String title, String content, String password, Board board) {
@@ -45,18 +45,5 @@ public class Article {
         this.password = password;
         this.board = board;
     }
-
-    //연관관계 편의 메서드
-//    public void addBoard(Board board) {
-//        // article에 이미 board가 설정되어 있을 경우
-//        if (this.board != null) {
-//            // board에서 해당 Entity 제거
-//            this.board.getArticleList().remove(this);
-//        }
-//        // 해당 article Entity에 파라미터로 들어온 board 연관관계 설정
-//        this.board = board;
-//        // 파라미터로 들어온 board Entity에 article 연관관계 설정
-//        board.getArticleList().add(this);
-//    }
 
 }
