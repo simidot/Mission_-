@@ -283,14 +283,21 @@ public class Article {
 </div>
 </details>
 
+<details>
+<summary><strong>5. DTO는 과연 어떻게 써야하는지요!?</strong></summary>
+<div markdown="1"> 
+DTO를 쓸 때 하나의 DTO를 만들고, 계속 재사용하는지, 아니면 일회용으로 담는 그릇으로 쓰고 다시 새로운 DTO를 만들어야할지에 대한 의문이 들었다...
+</div>
+</details>
 
 # 🖥️ 프로젝트 실행/테스트 방법
 
 #### 실행
 1. git clone
-2. 최초 실행 시 application.yaml 파일의 jpa.hibernate.ddl-auto:create로 설정을 변경하여 실행한다.
-3. 최초 실행 후에는 다시 update로 바꿔주면 된다.
-4. localhost:8080/boards로 접속하여 테스트한다.
+2. 최초 실행 시 **application.yaml** 파일의 jpa.hibernate.ddl-auto:**create**로 설정을 변경하여 실행한다.
+3. 최초 실행 후에는 다시 **update**로 바꿔주면 된다.
+4. 또한, 실행 시 더미 데이터가 입력되었기 때문에, **data.sql파일의 더미데이터 부분**을 **주석처리** 한다.
+5. localhost:8080/boards로 접속하여 테스트한다.
 
 #### 테스트
 1.  

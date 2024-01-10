@@ -1,9 +1,11 @@
 package com.example.mission.service;
 
 import com.example.mission.dto.AllArticleDto;
+import com.example.mission.dto.ArticleDto;
 import com.example.mission.dto.BoardDto;
 import com.example.mission.entity.Article;
 import com.example.mission.entity.Board;
+import com.example.mission.entity.BoardCategory;
 import com.example.mission.repo.ArticleRepository;
 import com.example.mission.repo.BoardRepository;
 import lombok.RequiredArgsConstructor;
@@ -55,6 +57,45 @@ public class BoardService {
     public Board findBoardByArticleId(Long articleId) {
         return boardRepository.findBoardByArticleListId(articleId);
     }
+
+    //전체 게시물중 검색결과 가져오기
+    public List<AllArticleDto> searchArticles(String criteria, String searchString, BoardCategory category) {
+        List<AllArticleDto> dtoList = new ArrayList<>();
+
+        // 카테고리가 없을 경우 + 기준에 따른 검색 결과
+        if (category==null) {
+            if (criteria.equals("title")) {
+                for (Article article : articleRepository.findArticlesByTitleContaining(searchString)) {
+                    dtoList.add(AllArticleDto.fromEntity(article));
+                }
+            } else if (criteria.equals("content")) {
+                for (Article article : articleRepository.findArticlesByContentContaining(searchString)) {
+                    dtoList.add(AllArticleDto.fromEntity(article));
+                }
+            } else {
+                for (Article article : articleRepository.findArticlesByTitleContainingOrContentContaining(searchString, searchString)) {
+                    dtoList.add(AllArticleDto.fromEntity(article));
+                }
+            }
+        } else {
+            // 카테고리와 기준에 따른 검색 결과
+            if (criteria.equals("title")) {
+                for (Article article : articleRepository.findArticlesByTitleContainingAndBoard_Category(searchString, category)) {
+                    dtoList.add(AllArticleDto.fromEntity(article));
+                }
+            } else if (criteria.equals("content")) {
+                for (Article article : articleRepository.findArticlesByContentContainingAndBoard_Category(searchString, category)) {
+                    dtoList.add(AllArticleDto.fromEntity(article));
+                }
+            } else {
+                for (Article article : articleRepository.findArticlesByContentContainingOrContentContainingAndBoard_Category(searchString, searchString, category)) {
+                    dtoList.add(AllArticleDto.fromEntity(article));
+                }
+            }
+        }
+        return dtoList;
+    }
+
 
 
 }

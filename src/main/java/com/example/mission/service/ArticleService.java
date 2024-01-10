@@ -49,7 +49,6 @@ public class ArticleService {
     // 게시글 삭제하기
     public void deleteArticle(Long id) {
         Article article = articleRepository.findById(id).orElse(null);
-//        article.getCommentList();
         articleRepository.delete(article);
     }
 }
