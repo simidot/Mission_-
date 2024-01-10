@@ -34,21 +34,14 @@ public class ArticleService {
     }
 
     // 게시글 수정하기
+    // 비밀번호가 올렸던 당시의 비밀번호와 일치하면 수정 가능
     public void updateArticle(UpdateArticleDto articleDto, BoardCategory category) {
         Article article = articleRepository.findById(articleDto.getId()).orElseThrow();
-
-        // 비밀번호가 올렸던 당시의 비밀번호와 일치하면 수정 가능
-        if (article.getPassword().equals(articleDto.getPassword())) {
-            Board foundBoard = boardRepository.findBoardByArticleListId(articleDto.getId());
-            foundBoard.setCategory(category);
-            article.setTitle(articleDto.getTitle());
-            article.setContent(articleDto.getContent());
-            article.setBoard(foundBoard);
-
-            UpdateArticleDto.fromEntity(articleRepository.save(article));
-        } else { //일치하지 않으면 todo: 일치하지 않으면 어떻게 해야할지?
-            System.out.println("비밀번호가 일치하지 않습니다.");
-        }
+        Board updatedBoard = boardRepository.findBoardByCategory(category);
+        article.setBoard(updatedBoard);
+        article.setTitle(articleDto.getTitle());
+        article.setContent(article.getContent());
+        UpdateArticleDto.fromEntity(articleRepository.save(article));
     }
 
     // 게시글 삭제하기

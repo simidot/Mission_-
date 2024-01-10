@@ -28,12 +28,12 @@ public class UpdateArticleDto {
         this.password = password;
     }
 
-    public UpdateArticleDto(Long id, String title, String content, BoardDto board) {
-        this.id = id;
-        this.title = title;
-        this.content = content;
-        this.board = board;
-    }
+//    public UpdateArticleDto(Long id, String title, String content, BoardDto board) {
+//        this.id = id;
+//        this.title = title;
+//        this.content = content;
+//        this.board = board;
+//    }
 
     public static UpdateArticleDto fromEntity(Article entity) {
         UpdateArticleDto dto = new UpdateArticleDto();

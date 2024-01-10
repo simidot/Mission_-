@@ -27,6 +27,7 @@
             </p>
         </div>
     </div>
+
     <hr>
 
     <!-- 게시글 수정, 삭제 버튼 -->
@@ -79,13 +80,18 @@
     </form>
 </div>
 
+<!-- 부트스트랩 및 팝퍼, 제이쿼리 CDN 추가 -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 
 <script th:inline="javascript">
-    var articleId = [[${article.id}]];
+    const articleId = [[${article.id}]];
 
     // 비밀번호를 입력하지 않고 수정하기/삭제하기를 눌렀을 때 비밀번호 입력 알림과 포커싱
     function focusPasswordPrompt() {
-        var passwordInput = document.getElementById('confirmPassword');
+        const passwordInput = document.getElementById('confirmPassword');
         passwordInput.focus();
 
         // 알림창 표시
@@ -95,10 +101,10 @@
     // 입력한 비밀번호와 게시글 쓰기에서 입력한 비밀번호가 같은지 확인하고,
     // 일치하면 수정/삭제 가능, 불일치시 비밀번호 불일치 알림
     function checkPassword(action) {
-        var passwordInput = document.getElementById('confirmPassword');
+        const passwordInput = document.getElementById('confirmPassword');
 
-        var enteredPassword = passwordInput.value;
-        var articlePassword = [[${article.password}]];
+        const enteredPassword = passwordInput.value;
+        const articlePassword = [[${article.password}]];
 
         if(enteredPassword != "") {
             if (enteredPassword == articlePassword) {
@@ -116,7 +122,7 @@
 
     // 비밀번호를 입력하지 않고 댓글 삭제버튼 눌렀을 때 비밀번호 입력 알림과 비밀번호 입력칸에 포커싱
     function focusCommentPassword(button) {
-        var passwordInput = button.closest('.card-body').getElementsByClassName('commentConfirmPassword')[0];
+        const passwordInput = button.closest('.card-body').getElementsByClassName('commentConfirmPassword')[0];
         passwordInput.focus();
         // 알림창 표시
         alert("댓글 삭제를 위해 비밀번호를 입력하세요.");
@@ -125,11 +131,11 @@
     // 입력한 비밀번호와 댓글 입력시 비밀번호가 같은지 확인하고,
     // 일치하면 삭제, 불일치시 비밀번호 불일치 알림
     function checkCommentPassword(button) {
-        var commentId = button.closest('.card-body').getAttribute('data-commentId');
-        var commentPassword = button.closest('.card-body').getAttribute('data-commentPassword');
+        const commentId = button.closest('.card-body').getAttribute('data-commentId');
+        const commentPassword = button.closest('.card-body').getAttribute('data-commentPassword');
 
-        var passwordInput = button.closest('.card-body').getElementsByClassName('commentConfirmPassword')[0];
-        var enteredPassword = passwordInput.value;
+        const passwordInput = button.closest('.card-body').getElementsByClassName('commentConfirmPassword')[0];
+        const enteredPassword = passwordInput.value;
 
         if (enteredPassword != "") {
             if (enteredPassword == commentPassword) {
@@ -140,12 +146,8 @@
             }
         }
     }
-
 </script>
-<!-- 부트스트랩 및 팝퍼, 제이쿼리 CDN 추가 -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 
 </body>
 </html>

@@ -15,7 +15,6 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final ArticleRepository articleRepository;
 
-
     // 댓글 작성하기
     public CommentDto createComment(CommentDto commentDto, Long id) {
         Article article = articleRepository.findById(id).orElseThrow();

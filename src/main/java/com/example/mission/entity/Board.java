@@ -20,6 +20,7 @@ public class Board {
     }
 
     @Enumerated(EnumType.STRING)
+    @Column(unique = true)
     private BoardCategory category;
 
     @OneToMany(mappedBy = "board")

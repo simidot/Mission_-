@@ -1,9 +1,7 @@
 package com.example.mission.controller;
 
 import com.example.mission.dto.ArticleDto;
-import com.example.mission.dto.BoardDto;
 import com.example.mission.dto.UpdateArticleDto;
-import com.example.mission.entity.Article;
 import com.example.mission.entity.BoardCategory;
 import com.example.mission.service.ArticleService;
 import com.example.mission.service.BoardService;
@@ -12,8 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/article")
