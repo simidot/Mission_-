@@ -1,5 +1,6 @@
 package com.example.mission.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,9 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -26,10 +29,10 @@ public class Article {
     private String content;
 
     @CreationTimestamp
-//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-//    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm", timezone="Asia/Seoul") //날짜 포멧 바꾸기
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", timezone = "Asia/Seoul")
     private Timestamp createDate;
 
+    @Column(nullable = false)
     private String password;
 
     @ManyToOne
@@ -38,6 +41,9 @@ public class Article {
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private final List<Comment> commentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    private final Set<ArticleTagMap> tagSet = new HashSet<>();
 
     public Article(String title, String content, String password, Board board) {
         this.title = title;

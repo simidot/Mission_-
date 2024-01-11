@@ -1,7 +1,6 @@
 package com.example.mission.controller;
 
 import com.example.mission.dto.ArticleDto;
-import com.example.mission.dto.UpdateArticleDto;
 import com.example.mission.entity.BoardCategory;
 import com.example.mission.service.ArticleService;
 import com.example.mission.service.BoardService;
@@ -18,13 +17,13 @@ public class ArticleController {
     private final ArticleService articleService;
     private final BoardService boardService;
 
-    // 게시글 작성하기 폼으로 이동(view)
+    // 2. 게시글 작성하기 폼으로 이동(view)
     @GetMapping
     public String createArticleForm() {
         return "createArticleForm";
     }
 
-    // 게시글 작성하기(post)
+    // 2. 게시글 작성하기(post)
     @PostMapping
     public String createArticle(
             @RequestParam("title") String title,
@@ -36,7 +35,7 @@ public class ArticleController {
         return "redirect:/boards";
     }
 
-    // 게시글 id값 받아와서 게시글 상세보기 + 댓글 조회하기
+    // 3. 게시글 id값 받아와서 게시글 상세보기 + 댓글 조회하기
     @GetMapping("/{articleId}")
     public String viewArticleDetail(@PathVariable("articleId") Long id, Model model) {
         ArticleDto article = articleService.viewArticleDetail(id);
@@ -45,7 +44,7 @@ public class ArticleController {
         return "articleDetail";
     }
 
-    // 게시글 수정하기 폼으로 이동 (view)
+    // 3. 게시글 수정하기 폼으로 이동 (view)
     @GetMapping("/{articleId}/update")
     public String updateArticleForm(@PathVariable("articleId") Long id, Model model) {
         model.addAttribute("article", articleService.viewArticleDetail(id));
@@ -53,7 +52,7 @@ public class ArticleController {
         return "updateArticleForm";
     }
 
-    // 게시글 수정하기
+    // 3. 게시글 수정하기
     // todo: 고민거리... 비밀번호 일치여부에 따른 로직은 컨트롤러 단에서 해야할까 서비스단에서 해야할까..?
     @PostMapping("/{articleId}/update")
     public String updateArticle(@RequestParam("id") Long id,
@@ -63,13 +62,13 @@ public class ArticleController {
                                 @RequestParam("password") String password,
                                 RedirectAttributes redirectAttributes
     ) {
-        articleService.updateArticle(new UpdateArticleDto(id, title, content, password), category);
+        articleService.updateArticle(new ArticleDto(id, title, content, password), category);
         redirectAttributes.addAttribute("articleId", id);
 
         return "redirect:/article/{articleId}";
     }
 
-    //게시글 삭제하기
+    //3. 게시글 삭제하기
     @GetMapping("/{articleId}/delete")
     public String deleteArticle(@PathVariable("articleId") Long id) {
         articleService.deleteArticle(id);

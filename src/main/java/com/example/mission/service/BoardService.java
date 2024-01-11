@@ -20,7 +20,7 @@ public class BoardService {
     private final ArticleRepository articleRepository;
     private final BoardRepository boardRepository;
 
-    // 전체 게시판 카테고리 불러오기
+    // 1. 전체 게시판 카테고리 불러오기
     public List<BoardDto> readBoardCategories() {
         List<BoardDto> dtoList = new ArrayList<>();
         for (Board board : boardRepository.findAll()) {
@@ -29,22 +29,22 @@ public class BoardService {
         return dtoList;
     }
 
-    // 게시판아이디로 게시판 카테고리 불러오기
+    // 1. 게시판아이디로 게시판 카테고리 불러오기
     public BoardDto findByBoardId(Long boardId) {
         Board board = boardRepository.findById(boardId).orElseThrow();
         return BoardDto.fromEntity(board);
     }
 
-    // 전체 카테고리 게시물 불러오기
+    // 1. 전체 카테고리 게시물 불러오기
     public List<AllArticleDto> readAllArticles() {
         List<AllArticleDto> dtoList = new ArrayList<>();
-        for (Article article : articleRepository.findArticleByOrderByCreateDateDesc()) {
+        for (Article article : articleRepository.findArticlesByOrderByCreateDateDesc()) {
             dtoList.add(AllArticleDto.fromEntity(article));
         }
         return dtoList;
     }
 
-    // 카테고리별 게시물 전체 불러오기
+    // 1. 카테고리별 게시물 전체 불러오기
     public List<AllArticleDto> readAllArticlesByBoardId(Long boardId) {
         List<AllArticleDto> dtoList = new ArrayList<>();
         for (Article article : articleRepository.findArticleByBoardIdOrderByCreateDateDesc(boardId)) {
@@ -58,7 +58,8 @@ public class BoardService {
         return boardRepository.findBoardByArticleListId(articleId);
     }
 
-    //전체 게시물중 검색결과 가져오기
+
+    //5. 전체 게시물중 검색결과 가져오기
     public List<AllArticleDto> searchArticles(String criteria, String searchString, BoardCategory category) {
         List<AllArticleDto> dtoList = new ArrayList<>();
 
@@ -95,7 +96,5 @@ public class BoardService {
         }
         return dtoList;
     }
-
-
-
+    
 }

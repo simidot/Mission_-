@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class BoardController {
     private final BoardService boardService;
 
-    // 전체 게시판 카테고리 불러오기
+    // 1. 전체 게시판 카테고리 불러오기
     @GetMapping
     public String showBoardList(Model model) {
         model.addAttribute("boards", boardService.readBoardCategories());
@@ -27,14 +27,14 @@ public class BoardController {
     }
 
 
-    // 전체 카테고리 게시글 목록 보기
+    // 1. 전체 카테고리 게시글 목록 보기
     @GetMapping("/allCategory")
     public String readAllCategoryArticles(Model model) {
         model.addAttribute("articles", boardService.readAllArticles());
         return "articleList";
     }
 
-    // 카테고리별 게시글 목록 보기
+    // 1. 카테고리별 게시글 목록 보기
     @GetMapping("/{boardId}")
     public String readArticles(@PathVariable Long boardId, Model model) {
         BoardDto board = boardService.findByBoardId(boardId);
@@ -43,7 +43,7 @@ public class BoardController {
         return "articleList";
     }
 
-    // 게시글 검색하기
+    // 5. 게시글 검색하기
     @GetMapping("/search")
     public String searchArticles(
             @RequestParam("criteria") String criteria,

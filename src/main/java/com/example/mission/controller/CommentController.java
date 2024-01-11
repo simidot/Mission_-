@@ -13,7 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class CommentController {
     private final CommentService commentService;
 
-    // 댓글 작성하기
+    // 3. 댓글 작성하기
     @PostMapping("/{articleId}/comment")
     public String createComment(@PathVariable("articleId") Long id,
                                 @RequestParam("content") String content,
@@ -24,7 +24,7 @@ public class CommentController {
         return "redirect:/article/{articleId}";
     }
 
-    // 댓글 삭제하기
+    // 3. 댓글 삭제하기
     @GetMapping("/{articleId}/comment/{commentId}/delete")
     public String deleteComment(@PathVariable("articleId") Long articleId,
                                 @PathVariable("commentId") Long commentId,
