@@ -18,11 +18,6 @@ public class ArticleTagMap {
     @ManyToOne(fetch = FetchType.LAZY)
     private Tag tag;
 
-    public ArticleTagMap(Long id, Article article, Tag tag) {
-        this.id = id;
-        this.article = article;
-        this.tag = tag;
-    }
 
     public ArticleTagMap(Article article, Tag tag) {
         this.article = article;

@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/article")
+@RequestMapping("/article/{articleId}/comment")
 @RequiredArgsConstructor
 public class CommentController {
     private final CommentService commentService;
 
     // 3. 댓글 작성하기
-    @PostMapping("/{articleId}/comment")
+    @PostMapping
     public String createComment(@PathVariable("articleId") Long id,
                                 @RequestParam("content") String content,
                                 @RequestParam("password") String password,
@@ -25,7 +25,7 @@ public class CommentController {
     }
 
     // 3. 댓글 삭제하기
-    @GetMapping("/{articleId}/comment/{commentId}/delete")
+    @GetMapping("/{commentId}/delete")
     public String deleteComment(@PathVariable("articleId") Long articleId,
                                 @PathVariable("commentId") Long commentId,
                                 RedirectAttributes redirectAttributes

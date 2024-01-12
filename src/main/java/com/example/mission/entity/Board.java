@@ -7,10 +7,10 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 @ToString
 public class Board {
+    // PK를 개발자가 임의적으로 수정할 수 없도록 @Setter를 설정해주지 않는다.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,6 +21,7 @@ public class Board {
 
     @Enumerated(EnumType.STRING)
     @Column(unique = true)
+    @Setter
     private BoardCategory category;
 
     @OneToMany(mappedBy = "board")
