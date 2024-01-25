@@ -1,5 +1,6 @@
 package com.example.mission.controller;
 
+import com.example.mission.dto.AllArticleDto;
 import com.example.mission.dto.BoardDto;
 import com.example.mission.entity.Article;
 import com.example.mission.entity.Board;
@@ -8,10 +9,9 @@ import com.example.mission.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/boards")
@@ -21,11 +21,10 @@ public class BoardController {
 
     // 1. 전체 게시판 카테고리 불러오기
     @GetMapping
-    public String showBoardList(Model model) {
-        model.addAttribute("boards", boardService.readBoardCategories());
+    public String showBoardList() {
+//        return boardService.readBoardCategories();
         return "boardList";
     }
-
 
     // 1. 전체 카테고리 게시글 목록 보기
     @GetMapping("/allCategory")
@@ -36,10 +35,10 @@ public class BoardController {
 
     // 1. 카테고리별 게시글 목록 보기
     @GetMapping("/{boardId}")
-    public String readArticles(@PathVariable Long boardId, Model model) {
+    public String readArticles(@PathVariable("boardId") Long boardId, Model model) {
         BoardDto board = boardService.findByBoardId(boardId);
-        model.addAttribute("boards", board);
         model.addAttribute("articles", boardService.readAllArticlesByBoardId(boardId));
+        model.addAttribute("boards", board);
         return "articleList";
     }
 
