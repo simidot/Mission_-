@@ -32,6 +32,8 @@ dependencies {
 	runtimeOnly 'org.hibernate.orm:hibernate-community-dialects:6.2.4.Final'
 	//sqlite 의존성
 	runtimeOnly 'org.xerial:sqlite-jdbc:3.41.2.2'
+
+	testImplementation 'com.h2database:h2:2.1.214'
 }
 
 tasks.named('test') {

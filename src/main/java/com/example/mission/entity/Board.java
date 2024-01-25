@@ -15,6 +15,7 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Builder
     public Board(BoardCategory category) {
         this.category = category;
     }

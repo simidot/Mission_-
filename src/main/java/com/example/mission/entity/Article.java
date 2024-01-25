@@ -2,6 +2,7 @@ package com.example.mission.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -45,6 +46,7 @@ public class Article {
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private final Set<ArticleTagMap> tagSet = new HashSet<>();
 
+    @Builder
     public Article(String title, String content, String password, Board board) {
         this.title = title;
         this.content = content;

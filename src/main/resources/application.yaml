@@ -1,17 +1,55 @@
+#profile 설정
 spring:
-  datasource:
-    url: jdbc:sqlite:db.sqlite
-    driver-class-name: org.sqlite.JDBC
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    database-platform: org.hibernate.community.dialect.SQLiteDialect
-    defer-datasource-initialization: true
-  sql:
-    init:
-      mode: always
+    datasource:
+        url: jdbc:sqlite:db.sqlite
+        driver-class-name: org.sqlite.JDBC
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true
+        defer-datasource-initialization: true
+#    sql:
+#        init:
+#            mode: always
+    config:
+        activate:
+            on-profile: test
 
-##profile 설정
-#  profiles:
-#    active: local
+
+#테스트 프로파일
+---
+spring:
+    config:
+        active:
+            on-profile: test
+    sql:
+        init:
+            mode: never
+    datasource:
+        url: jdbc:h2:tcp://localhost/~/test
+        driver-class-name: org.h2.Driver
+        username: sa
+        password:
+        h2:
+            console:
+                enabled: true
+                path: /h2-console
+    jpa:
+        hibernate:
+            ddl-auto: create
+        show-sql: true
+        database-platform: org.hibernate.dialect.H2Dialect
+        defer-datasource-initialization: true
+
+#개발 프로파일
+---
+spring:
+    config:
+        activate:
+            on-profile: dev
+    datasource:
+        url: jdbc:sqlite:db.sqlite
+        driver-class-name: org.sqlite.JDBC
+    sql:
+        init:
+            mode: always

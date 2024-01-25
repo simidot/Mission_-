@@ -1,8 +1,13 @@
-INSERT OR IGNORE INTO board (category) VALUES ('자유');
-INSERT OR IGNORE INTO board (category) VALUES ('개발');
-INSERT OR IGNORE INTO board (category) VALUES ('일상');
-INSERT OR IGNORE INTO board (category) VALUES ('사건사고');
-
+-- INSERT OR IGNORE INTO board (category) VALUES ('자유');
+-- INSERT OR IGNORE INTO board (category) VALUES ('개발');
+-- INSERT OR IGNORE INTO board (category) VALUES ('일상');
+-- INSERT OR IGNORE INTO board (category) VALUES ('사건사고');
+--
+-- INSERT IGNORE INTO board (category) VALUES ('자유');
+-- INSERT IGNORE INTO board (category) VALUES ('개발');
+-- INSERT IGNORE INTO board (category) VALUES ('일상');
+-- INSERT IGNORE INTO board (category) VALUES ('사건사고');
+--
 
 -- 더미데이터입니다. 1회 실행 후 주석처리
 -- INSERT INTO article (title, content, password, board_id, create_date)
