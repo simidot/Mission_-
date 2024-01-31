@@ -1,7 +1,6 @@
 package com.example.mission.service;
 
 import com.example.mission.dto.AllArticleDto;
-import com.example.mission.dto.ArticleDto;
 import com.example.mission.dto.BoardDto;
 import com.example.mission.entity.Article;
 import com.example.mission.entity.Board;
@@ -13,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +38,7 @@ public class BoardService {
     // 1. 전체 카테고리 게시물 불러오기
     public List<AllArticleDto> readAllArticles() {
         List<AllArticleDto> dtoList = new ArrayList<>();
-        for (Article article : articleRepository.findArticlesByOrderByCreateDateDesc()) {
+        for (Article article : articleRepository.findAllByOrderByCreateDateDesc()) {
             dtoList.add(AllArticleDto.fromEntity(article));
         }
         return dtoList;
@@ -47,15 +47,15 @@ public class BoardService {
     // 1. 카테고리별 게시물 전체 불러오기
     public List<AllArticleDto> readAllArticlesByBoardId(Long boardId) {
         List<AllArticleDto> dtoList = new ArrayList<>();
-        for (Article article : articleRepository.findArticleByBoardIdOrderByCreateDateDesc(boardId)) {
+        for (Article article : articleRepository.findAllByBoardIdOrderByCreateDateDesc(boardId)) {
             dtoList.add(AllArticleDto.fromEntity(article));
         }
         return dtoList;
     }
 
     // 게시글 id로 board 찾기
-    public Board findBoardByArticleId(Long articleId) {
-        return boardRepository.findBoardByArticleListId(articleId);
+    public BoardDto findBoardByArticleId(Long articleId) {
+        return BoardDto.fromEntity(boardRepository.findBoardByArticleListId(articleId));
     }
 
 
@@ -65,36 +65,41 @@ public class BoardService {
 
         // 카테고리가 없을 경우 + 기준에 따른 검색 결과
         if (category==null) {
-            if (criteria.equals("title")) {
-                for (Article article : articleRepository.findArticlesByTitleContaining(searchString)) {
-                    dtoList.add(AllArticleDto.fromEntity(article));
-                }
-            } else if (criteria.equals("content")) {
-                for (Article article : articleRepository.findArticlesByContentContaining(searchString)) {
-                    dtoList.add(AllArticleDto.fromEntity(article));
-                }
+            if ("title".equals(criteria)) {
+                dtoList.addAll(articleRepository.findAllByTitleContaining(searchString)
+                        .stream()
+                        .map(AllArticleDto::fromEntity)
+                        .collect(Collectors.toList()));
+            } else if ("content".equals(criteria)) {
+                dtoList.addAll(articleRepository.findAllByContentContaining(searchString)
+                        .stream()
+                        .map(AllArticleDto::fromEntity)
+                        .collect(Collectors.toList()));
             } else {
-                for (Article article : articleRepository.findArticlesByTitleContainingOrContentContaining(searchString, searchString)) {
-                    dtoList.add(AllArticleDto.fromEntity(article));
-                }
+                dtoList.addAll(articleRepository.findAllByTitleContainingOrContentContaining(searchString, searchString)
+                        .stream()
+                        .map(AllArticleDto::fromEntity)
+                        .collect(Collectors.toList()));
             }
         } else {
             // 카테고리와 기준에 따른 검색 결과
-            if (criteria.equals("title")) {
-                for (Article article : articleRepository.findArticlesByTitleContainingAndBoard_Category(searchString, category)) {
-                    dtoList.add(AllArticleDto.fromEntity(article));
-                }
-            } else if (criteria.equals("content")) {
-                for (Article article : articleRepository.findArticlesByContentContainingAndBoard_Category(searchString, category)) {
-                    dtoList.add(AllArticleDto.fromEntity(article));
-                }
+            if ("title".equals(criteria)) {
+                dtoList.addAll(articleRepository.findAllByTitleContainingAndBoard_Category(searchString, category)
+                        .stream()
+                        .map(AllArticleDto::fromEntity)
+                        .collect(Collectors.toList()));
+            } else if ("content".equals(criteria)) {
+                dtoList.addAll(articleRepository.findAllByContentContainingAndBoard_Category(searchString, category)
+                        .stream()
+                        .map(AllArticleDto::fromEntity)
+                        .collect(Collectors.toList()));
             } else {
-                for (Article article : articleRepository.findArticlesByContentContainingOrContentContainingAndBoard_Category(searchString, searchString, category)) {
-                    dtoList.add(AllArticleDto.fromEntity(article));
-                }
+                dtoList.addAll(articleRepository.findAllByTitleContainingOrContentContainingAndBoard_Category(searchString, searchString, category)
+                        .stream()
+                        .map(AllArticleDto::fromEntity)
+                        .collect(Collectors.toList()));
             }
         }
         return dtoList;
     }
-    
 }

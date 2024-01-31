@@ -2,10 +2,7 @@ package com.example.mission.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
@@ -17,21 +14,14 @@ import java.util.Set;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Article {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Builder
+public class Article extends BaseEntity{
 
     @Setter
     private String title;
     @Lob
     @Setter
     private String content;
-
-    @CreationTimestamp
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", timezone = "Asia/Seoul")
-    private Timestamp createDate;
 
     @Column(nullable = false)
     private String password;

@@ -22,7 +22,7 @@ public class BoardController {
     // 1. 전체 게시판 카테고리 불러오기
     @GetMapping
     public String showBoardList() {
-//        return boardService.readBoardCategories();
+        boardService.readBoardCategories();
         return "boardList";
     }
 

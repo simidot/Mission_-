@@ -26,7 +26,6 @@ public class CommentDto {
         dto.id = entity.getId();
         dto.content = entity.getContent();
         dto.password = entity.getPassword();
-        dto.createDate = entity.getCreateDate();
         return dto;
     }
 }

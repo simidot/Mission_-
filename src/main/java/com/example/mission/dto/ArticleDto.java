@@ -54,7 +54,6 @@ public class ArticleDto {
         dto.title = entity.getTitle();
         dto.content = entity.getContent();
         dto.password = entity.getPassword();
-        dto.createDate = entity.getCreateDate();
         dto.comments = new ArrayList<>();
         for (Comment comment : entity.getCommentList()) {
             dto.comments.add(CommentDto.fromEntity(comment));

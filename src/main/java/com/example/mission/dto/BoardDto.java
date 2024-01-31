@@ -25,10 +25,10 @@ public class BoardDto {
         BoardDto dto = new BoardDto();
         dto.id = entity.getId();
         dto.category = String.valueOf(entity.getCategory());
-        dto.articleDtoList = new ArrayList<>();
-        for (Article article : entity.getArticleList()) {
-            dto.articleDtoList.add(ArticleDto.fromEntity(article));
-        }
+//        dto.articleDtoList = new ArrayList<>();
+//        for (Article article : entity.getArticleList()) {
+//            dto.articleDtoList.add(ArticleDto.fromEntity(article));
+//        }
         return dto;
     }
 }

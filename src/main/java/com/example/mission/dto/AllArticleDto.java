@@ -35,7 +35,6 @@ public class AllArticleDto {
         dto.title = entity.getTitle();
         dto.content = entity.getContent();
         dto.password = entity.getPassword();
-        dto.createDate = entity.getCreateDate();
         dto.boardCategory = entity.getBoard().getCategory();
         return dto;
     }

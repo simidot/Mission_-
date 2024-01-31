@@ -1,6 +1,8 @@
 package com.example.mission.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -10,18 +12,13 @@ import java.sql.Timestamp;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Comment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Builder
+public class Comment extends BaseEntity{
 
     @Column(nullable = false)
     private String content;
     @Column(nullable = false)
     private String password;
-
-    @CreationTimestamp
-    private Timestamp createDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Article article;
