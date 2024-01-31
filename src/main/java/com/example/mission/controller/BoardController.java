@@ -30,6 +30,7 @@ public class BoardController {
     @GetMapping("/allCategory")
     public String readAllCategoryArticles(Model model) {
         model.addAttribute("articles", boardService.readAllArticles());
+        model.addAttribute("categoryView", false);
         return "articleList";
     }
 
@@ -38,7 +39,8 @@ public class BoardController {
     public String readArticles(@PathVariable("boardId") Long boardId, Model model) {
         BoardDto board = boardService.findByBoardId(boardId);
         model.addAttribute("articles", boardService.readAllArticlesByBoardId(boardId));
-        model.addAttribute("boards", board);
+        model.addAttribute("categoryView", true);
+        model.addAttribute("boards", board.getCategory());
         return "articleList";
     }
 

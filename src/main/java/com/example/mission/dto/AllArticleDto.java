@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @ToString
@@ -18,12 +19,12 @@ public class AllArticleDto {
     private String title;
     @Setter
     private String content;
-    private Timestamp createDate;
+    private LocalDateTime createDate;
     @Setter
     private String password;
 //    private BoardDto board;
     // 보드 전체가 아니라,,, boardCategory만 갖고와도 되니까 이렇게 설정이 가능하다.
-    private BoardCategory boardCategory;
+    private String boardCategory;
 
 
     // static 정적 메서드 (클래스 생성 없이 사용할 수 있는 메서드)
@@ -35,7 +36,10 @@ public class AllArticleDto {
         dto.title = entity.getTitle();
         dto.content = entity.getContent();
         dto.password = entity.getPassword();
-        dto.boardCategory = entity.getBoard().getCategory();
+        dto.createDate = entity.getCreateDate();
+        dto.boardCategory = entity.getBoard().getCategory().name();
+        System.out.println("Article입니다ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ"+dto.toString());
+
         return dto;
     }
 }

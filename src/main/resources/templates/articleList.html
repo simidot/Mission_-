@@ -9,12 +9,11 @@
 </head>
 <body>
 
-<div class="container mt-5">
+<div class="container mt-5" th:each="article, index: ${articles}">
     <div class="d-flex justify-content-between align-items-center mb-4">
 <!--        모델이 설정된 경우 boards는 null이 아님-->
-        <h2 th:if="${boards != null}" th:text="${boards.getCategory()+' 게시판'}">게시판 게시글 목록 보기</h2>
-<!--        모델이 설정되지 않은 경우 (즉, 전체 카테고리 목록) boards는 null이다. -->
-        <h2 th:if="${boards == null}">전체 게시판 게시글</h2>
+        <h2 th:unless="${categoryView}">전체 게시판 게시글</h2>
+        <h2 th:if="${categoryView}" th:text="${boards+' 게시판'}">게시판 게시글 목록 보기</h2>
         <a th:href="@{/article}" class="btn btn-primary">게시글 쓰기</a>
     </div>
 
@@ -25,15 +24,14 @@
             <th scope="col">게시판 제목</th>
             <th scope="col">날짜</th>
             <th scope="col">카테고리</th>
-
         </tr>
         </thead>
         <tbody>
-        <tr th:each="article, index: ${articles}">
+        <tr>
             <th scope="row">[[${index.index+1}]]</th>
             <td><a th:href="@{/article/{articleId}(articleId=${article.id})}">[[${article.title}]]</a></td>
             <td>[[${article.createDate}]]</td>
-            <td>[[${article.boardCategory}]]</td>
+            <td th:text="${article.boardCategory}">카테고리</td>
         </tr>
         </tbody>
     </table>
@@ -51,7 +49,7 @@
             <input class="form-control me-2" type="search" placeholder="검색어를 입력하세요" id="search" name="search" aria-label="Search">
         </div>
 <!--        게시판 카테고리를 전해주기 위한 hidden input-->
-        <input type="hidden" id="category" name="category" th:value="${boards != null ? boards.category : ''}" />
+<!--        <input type="hidden" id="category" name="category" th:value="${boards != null ? boards.category : ''}" />-->
         <div class="col-auto">
             <button class="btn btn-outline-success me-2" type="submit">검색</button>
         </div>

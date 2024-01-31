@@ -1,27 +1,14 @@
 #profile 설정
 spring:
-    datasource:
-        url: jdbc:sqlite:db.sqlite
-        driver-class-name: org.sqlite.JDBC
-    jpa:
-        hibernate:
-            ddl-auto: update
-        show-sql: true
-        defer-datasource-initialization: true
-#    sql:
-#        init:
-#            mode: always
     config:
         activate:
-            on-profile: test
-
+            on-profile: dev
 
 #테스트 프로파일
 ---
 spring:
-    config:
-        active:
-            on-profile: test
+    profiles:
+        active: test
     sql:
         init:
             mode: never
@@ -44,12 +31,16 @@ spring:
 #개발 프로파일
 ---
 spring:
-    config:
-        activate:
-            on-profile: dev
     datasource:
         url: jdbc:sqlite:db.sqlite
         driver-class-name: org.sqlite.JDBC
+        initialization-mode: always
+    jpa:
+        hibernate:
+            ddl-auto: create
+        show-sql: true
+        database-platform: org.hibernate.community.dialect.SQLiteDialect
     sql:
         init:
             mode: always
+

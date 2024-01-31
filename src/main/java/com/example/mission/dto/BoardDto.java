@@ -24,7 +24,7 @@ public class BoardDto {
     public static BoardDto fromEntity(Board entity) {
         BoardDto dto = new BoardDto();
         dto.id = entity.getId();
-        dto.category = String.valueOf(entity.getCategory());
+        dto.category = entity.getCategory().name();
 //        dto.articleDtoList = new ArrayList<>();
 //        for (Article article : entity.getArticleList()) {
 //            dto.articleDtoList.add(ArticleDto.fromEntity(article));
